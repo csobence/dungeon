@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Classes {
+    Role role;
     private int STR = 1;
     private int INT = 1;
     private int CON = 1;
@@ -13,18 +14,6 @@ public class Classes {
     private int EXP = 0;
     private int maxExp = 20;
     private int skillPoint = 0;
-    private boolean warrior = false;
-    private boolean mage = false;
-    private boolean priest = false;
-    private boolean rogue = false;
-    private boolean samurai = false;
-    private boolean berserker = false;
-    private boolean paladin = false;
-    private boolean warlock = false;
-    private boolean gunslinger = false;
-    private boolean gambler = false;
-    private boolean necromancer = false;
-    private boolean shapeshifter = false;
     private boolean instant = false;
     private int health = health();
     private int mana = mana();
@@ -37,7 +26,7 @@ public class Classes {
 
     public void chooseClass(String name) {
         if (name.equalsIgnoreCase("warrior")) {
-            warrior = true;
+            role = Role.WARRIOR;
             setSTR(16);
             setINT(12);
             setCON(16);
@@ -48,7 +37,7 @@ public class Classes {
             mana = maxMana();
         }
         if (name.equalsIgnoreCase("mage")) {
-            mage = true;
+            role = Role.MAGE;
             setSTR(10);
             setINT(16);
             setCON(12);
@@ -59,7 +48,7 @@ public class Classes {
             mana = maxMana();
         }
         if (name.equalsIgnoreCase("priest")) {
-            priest = true;
+            role = Role.PRIEST;
             setSTR(13);
             setINT(13);
             setCON(12);
@@ -70,7 +59,7 @@ public class Classes {
             mana = maxMana();
         }
         if (name.equalsIgnoreCase("rogue")) {
-            rogue = true;
+            role = Role.ROGUE;
             setSTR(12);
             setINT(12);
             setCON(10);
@@ -81,7 +70,7 @@ public class Classes {
             mana = maxMana();
         }
         if (name.equalsIgnoreCase("samurai")) {
-            samurai = true;
+            role = Role.SAMURAI;
             setSTR(12);
             setINT(10);
             setCON(14);
@@ -92,7 +81,7 @@ public class Classes {
             mana = maxMana();
         }
         if (name.equalsIgnoreCase("berserker")) {
-            berserker = true;
+            role = Role.BERSERKER;
             setSTR(14);
             setINT(12);
             setCON(16);
@@ -103,7 +92,7 @@ public class Classes {
             mana = maxMana();
         }
         if (name.equalsIgnoreCase("warlock")) {
-            warlock = true;
+            role = Role.WARLOCK;
             setSTR(10);
             setINT(16);
             setCON(16);
@@ -114,7 +103,7 @@ public class Classes {
             mana = maxMana();
         }
         if (name.equalsIgnoreCase("paladin")) {
-            paladin = true;
+            role = Role.PALADIN;
             setSTR(12);
             setINT(12);
             setCON(16);
@@ -125,7 +114,7 @@ public class Classes {
             mana = maxMana();
         }
         if (name.equalsIgnoreCase("gunslinger")) {
-            gunslinger = true;
+            role = Role.GUNSLINGER;
             setSTR(12);
             setINT(14);
             setCON(12);
@@ -136,7 +125,7 @@ public class Classes {
             mana = maxMana();
         }
         if (name.equalsIgnoreCase("gambler")) {
-            gambler = true;
+            role = Role.GAMBLER;
             setSTR(12);
             setINT(14);
             setCON(12);
@@ -147,7 +136,7 @@ public class Classes {
             mana = maxMana();
         }
         if (name.equalsIgnoreCase("Necromancer")) {
-            necromancer = true;
+            role = Role.NECROMANCER;
             setSTR(12);
             setINT(14);
             setCON(12);
@@ -158,7 +147,7 @@ public class Classes {
             mana = maxMana();
         }
         if (name.equalsIgnoreCase("Shapeshifter")) {
-            shapeshifter = true;
+            role = Role.SHAPESHIFTER;
             setSTR(14);
             setINT(14);
             setCON(14);
@@ -174,13 +163,13 @@ public class Classes {
         int roll = 0;
         int damage = 0;
         Random rand = new Random();
-        if (warrior || paladin) {
+        if (role.equals(Role.WARRIOR) || role.equals(Role.PALADIN)) {
             roll = rand.nextInt(10);
             damage = roll + attackPower();
-        } else if (priest || rogue || samurai || berserker) {
+        } else if (role.equals(Role.PRIEST) || role.equals(Role.ROGUE) || role.equals(Role.SAMURAI) || role.equals(Role.BERSERKER)) {
             roll = rand.nextInt(8);
             damage = roll + attackPower();
-        } else if (gambler) {
+        } else if (role.equals(Role.GAMBLER)) {
             roll = rand.nextInt(5);
             damage = roll + attackPower();
         } else {
@@ -193,10 +182,10 @@ public class Classes {
         int roll = 0;
         int damage = 0;
         Random rand = new Random();
-        if (mage) {
+        if (role.equals(Role.MAGE)) {
             roll = rand.nextInt(8);
             damage = roll + magicPower();
-        } else if (priest || warlock || necromancer) {
+        } else if (role.equals(Role.PRIEST) || role.equals(Role.WARLOCK) || role.equals(Role.NECROMANCER)) {
             roll = rand.nextInt(3);
             damage = roll + magicPower();
         } else {
@@ -336,127 +325,31 @@ public class Classes {
         return (CHA - 10) * 2;
     }
 
-    public boolean isWarrior() {
-        if (warrior) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean isMage() {
-        if (mage) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean isPriest() {
-        if (priest) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean isRogue() {
-        if (rogue) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean isSamurai() {
-        if (samurai) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean isBerserker() {
-        if (berserker) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean isWarlock() {
-        if (warlock) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean isPaladin() {
-        if (paladin) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean isGunslinger() {
-        if (gunslinger) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean isGambler() {
-        if (gambler) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean isNecromancer() {
-        if (necromancer) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean isShapeshifter() {
-        if (shapeshifter) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public String classAbiliti() {
         String abiliti = "";
-        if (warrior) {
+        if (role.equals(Role.WARRIOR)) {
             abiliti = "Bloodbath";
-        } else if (mage) {
+        } else if (role.equals(Role.MAGE)) {
             abiliti = "Fireball";
-        } else if (priest) {
+        } else if (role.equals(Role.PRIEST)) {
             abiliti = "Heal";
-        } else if (rogue) {
+        } else if (role.equals(Role.ROGUE)) {
             abiliti = "Stealth";
-        } else if (samurai) {
+        } else if (role.equals(Role.SAMURAI)) {
             abiliti = "Iaido";
-        } else if (berserker) {
+        } else if (role.equals(Role.BERSERKER)) {
             abiliti = "Rampage";
-        } else if (warlock) {
+        } else if (role.equals(Role.WARLOCK)) {
             abiliti = "Shadowbolt";
-        } else if (paladin) {
+        } else if (role.equals(Role.PALADIN)) {
             abiliti = "Reflect";
-        } else if (gunslinger) {
+        } else if (role.equals(Role.GUNSLINGER)) {
             abiliti = "Barrage";
-        } else if (gambler) {
+        } else if (role.equals(Role.GAMBLER)) {
             abiliti = "Roll";
-        } else if (necromancer) {
+        } else if (role.equals(Role.NECROMANCER)) {
             abiliti = "Claws";
-        } else if (shapeshifter) {
+        } else if (role.equals(Role.SHAPESHIFTER)) {
             abiliti = "Transform";
         }
         return abiliti;
@@ -563,14 +456,7 @@ public class Classes {
         System.out.println("You have " + getEXP() + "/" + getMaxExp() + " experience points.");
     }
 
-    public boolean instantDragon() {
-        if (instant) {
-            instant = false;
-            return true;
-        } else {
-            return false;
-        }
-    }
+
 
     public int dragonTrue() {
         return levelUpScore;

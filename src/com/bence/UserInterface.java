@@ -404,7 +404,7 @@ public class UserInterface {
         System.out.println("Your health is: " + classes.health() + "/" + classes.maxHealth());
         System.out.println("You mana is: " + classes.getMana() + "/" + classes.maxMana());
         System.out.println("You have " + classes.getEXP() + "/" + classes.getMaxExp() + " experience points.");
-        if (classes.isNecromancer()) {
+        if (classes.role.equals(Role.NECROMANCER)) {
             if (undeadSmall > 0) {
                 System.out.println("You have " + undeadSmall + " small sized minions.");
             }
@@ -418,7 +418,7 @@ public class UserInterface {
                 System.out.println("You have Gigantos, the destroyer.");
             }
         }
-        if (classes.isShapeshifter()) {
+        if (classes.role.equals(Role.SHAPESHIFTER)) {
             if (transformPsychicalDmg == 6) {
                 System.out.println("Your current form is a rat.");
             } else if (transformMagicalDmg == 6) {
@@ -443,7 +443,7 @@ public class UserInterface {
         int trap = game.trapChance();
         System.out.println("ITS A TRAP!");
         System.out.println("");
-        if (classes.isRogue()) {
+        if (classes.role.equals(Role.ROGUE)) {
             System.out.println("You have dodged the trap.");
         } else {
             if (trap == 0) {
@@ -479,7 +479,7 @@ public class UserInterface {
             String chest = scanner.next();
             if (chest.equalsIgnoreCase("open")) {
                 int roll = rand.nextInt(9);
-                if (classes.isGambler()) {
+                if (classes.role.equals(Role.GAMBLER)) {
                     while (roll == 0 || roll == 8) {
                         roll = rand.nextInt(9);
                     }
@@ -543,7 +543,7 @@ public class UserInterface {
                 } else if (roll == 8) {
                     arts.mimic();
                     System.out.println("You have found MIMIC, the deadly battle chest!");
-                    if (classes.isRogue() == true) {
+                    if (classes.role.equals(Role.ROGUE)) {
                         System.out.println("You have dodged the mimic's attack and it ran away.");
                     } else {
                         System.out.println("It has dealt 5 damage and ran away!");
@@ -614,7 +614,7 @@ public class UserInterface {
             classes.setMana(classes.maxMana());
             classes.levelUP();
         }
-        if (classes.isNecromancer()) {
+        if (classes.role.equals(Role.NECROMANCER)) {
             undead();
         }
         strikeTrue = false;
@@ -834,7 +834,7 @@ public class UserInterface {
         monsters.monsterDraw(chance);
         abilitiScore = 1;
         game.monsterArt(chance);
-        System.out.println("You encountered a " + monsters.getName() + ", health: " + monsters.getMaxHealth());
+        System.out.println("You have encountered a " + monsters.getName() + ", health: " + monsters.getMaxHealth());
         if (monsters.getName().equalsIgnoreCase("dragon")) {
             dragonScore = 1;
         }
@@ -847,7 +847,7 @@ public class UserInterface {
             monsterTurn = false;
             yourTurn = true;
             battle = true;
-        } else if (playerIni < monsterIni) {
+        } else {
             yourTurn = false;
             monsterTurn = true;
             battle = true;
@@ -869,7 +869,7 @@ public class UserInterface {
                             System.out.println("Critical hit!");
                             System.out.println("");
                         }
-                        if (classes.isRogue()) {
+                        if (classes.role.equals(Role.ROGUE)) {
                             System.out.println("You dealt " + damage + " psychical damage to the enemy");
                             System.out.println("You dealt " + secondDamage + " psychical damage to the enemy");
                             if (monsters.getMaxHealth() - Math.abs(monsters.getPsychicalDefense() - damage - secondDamage) <= 0) {
@@ -881,7 +881,7 @@ public class UserInterface {
                                 yourTurn = false;
                                 monsterTurn = true;
                             }
-                        } else if (classes.isBerserker()) {
+                        } else if (classes.role.equals(Role.BERSERKER)) {
                             int missingHealth = classes.maxHealth() - classes.getHealth();
                             damage = damage + missingHealth;
                             System.out.println("You dealt " + damage + " psychical damage to the enemy");
@@ -922,7 +922,7 @@ public class UserInterface {
                         damage = classes.magicalDamage() + transformMagicalDmg;
                         if (classes.getMana() >= 4) {
                             System.out.println("You have dealt " + damage + " magical damage to the enemy");
-                            if (classes.isWarlock()) {
+                            if (classes.role.equals(Role.WARLOCK)) {
                                 System.out.println("You have restored " + damage / 3 + " health to yourself");
                                 if (damage / 3 + classes.getHealth() >= classes.maxHealth()) {
                                     classes.setHealth(classes.maxHealth());
@@ -946,7 +946,7 @@ public class UserInterface {
                         }
                         break;
                     case "bloodbath":
-                        if (classes.isWarrior()) {
+                        if (classes.role.equals(Role.WARRIOR)) {
                             System.out.println("You have activated Bloodbath.");
                             bloodTrue = true;
                             yourTurn = false;
@@ -956,7 +956,7 @@ public class UserInterface {
                         }
                         break;
                     case "stealth":
-                        if (classes.isRogue() && abilitiScore == 1) {
+                        if (classes.role.equals(Role.ROGUE) && abilitiScore == 1) {
                             damage = classes.psychicalDamage() * 2;
                             System.out.println("You are in stealth mode.");
                             System.out.println("You can use backstab or flee.");
@@ -994,7 +994,7 @@ public class UserInterface {
                         }
                         break;
                     case "fireball":
-                        if (classes.isMage()) {
+                        if (classes.role.equals(Role.MAGE)) {
                             damage = classes.magicalDamage() + classes.magicalDamage() / 2;
                             if (classes.getMana() >= 10) {
                                 System.out.println("You dealt " + damage + " magical damage to the enemy");
@@ -1018,7 +1018,7 @@ public class UserInterface {
                         break;
                     case "heal":
                         int trueHeal = rand.nextInt(8) + 1 + classes.heal();
-                        if (classes.isPriest()) {
+                        if (classes.role.equals(Role.PRIEST)) {
                             if (classes.getMana() >= 6) {
                                 if (trueHeal + classes.getHealth() >= classes.maxHealth()) {
                                     classes.setHealth(classes.maxHealth());
@@ -1038,7 +1038,7 @@ public class UserInterface {
                         }
                         break;
                     case "iaido":
-                        if (classes.isSamurai()) {
+                        if (classes.role.equals(Role.SAMURAI)) {
                             if (iaidoTrue) {
                                 iaidoTrue = false;
                                 damage = classes.psychicalDamage() * 3;
@@ -1070,7 +1070,7 @@ public class UserInterface {
 
                         break;
                     case "rampage":
-                        if (classes.isBerserker() && rampageTrue) {
+                        if (classes.role.equals(Role.BERSERKER) && rampageTrue) {
                             classes.setHealth(classes.getHealth() / 2);
                             System.out.println("You have used rampage");
                             System.out.println("You have " + classes.getHealth() + "/" + classes.maxHealth() + " health.");
@@ -1081,7 +1081,7 @@ public class UserInterface {
                         }
                         break;
                     case "shadowbolt":
-                        if (classes.isWarlock()) {
+                        if (classes.role.equals(Role.WARLOCK)) {
                             damage = classes.magicalDamage() + classes.magicalDamage() / 2;
                             if (classes.getHealth() > 8) {
                                 System.out.println("You have sacrificed 8 health points");
@@ -1105,7 +1105,7 @@ public class UserInterface {
                         }
                         break;
                     case "reflect":
-                        if (classes.isPaladin()) {
+                        if (classes.role.equals(Role.PALADIN)) {
                             if (classes.getMana() >= 6) {
                                 blockTrue = false;
                                 reflectTrue = true;
@@ -1121,7 +1121,7 @@ public class UserInterface {
                         }
                         break;
                     case "barrage":
-                        if (classes.isGunslinger()) {
+                        if (classes.role.equals(Role.GUNSLINGER)) {
                             if (strikeTrue) {
                                 damage = classes.psychicalDamage();
                                 chance10 = rand.nextInt(10) + 1;
@@ -1178,7 +1178,7 @@ public class UserInterface {
                         }
                         break;
                     case "roll":
-                        if (classes.isGambler()) {
+                        if (classes.role.equals(Role.GAMBLER)) {
                             int dieRoll = rand.nextInt(6) + 1;
                             if (dieRoll == 1) {
                                 System.out.println("Bad luck!");
@@ -1249,7 +1249,7 @@ public class UserInterface {
                         break;
                     case "claws":
                         damage = undeadSmall * 2 + undeadNormal * 8 + undeadBig * 26 + gigantos * 55;
-                        if (classes.isNecromancer()) {
+                        if (classes.role.equals(Role.NECROMANCER)) {
                             if (undeadSmall > 0 || undeadNormal > 0 || undeadBig > 0 || gigantos > 0) {
                                 if (undeadSmall == 1) {
                                     System.out.println("Your small undead deals 2 psychical damage");
@@ -1303,7 +1303,7 @@ public class UserInterface {
                 int monsterPsychicalDmg = rand.nextInt(monsters.dmg()) + monsters.getPsychicalDamage();
                 int monsterMagicalDmg = rand.nextInt(monsters.dmg()) + monsters.getMagicalDamage();
                 if (monsters.getPsychicalDamage() > monsters.getMagicalDamage()) {
-                    if (blockTrue && classes.isPaladin()) {
+                    if (blockTrue && classes.role.equals(Role.PALADIN)) {
                         chance10 = rand.nextInt(10) + 1;
                         if (chance10 <= 3) {
                             System.out.println("The " + monsters.getName() + " deals " + monsterPsychicalDmg +

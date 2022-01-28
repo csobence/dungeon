@@ -399,8 +399,6 @@ public class Classes {
         System.out.println("Your level is " + levelUpScore);
     }
 
-
-
     public int getLevelUpScore() {
         return levelUpScore;
     }

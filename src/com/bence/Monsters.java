@@ -15,6 +15,8 @@ public class Monsters {
     private int initiative;
     private int transformCode;
 
+    private int newGamePlus = 1;
+
     public Monsters() {
 
     }
@@ -48,10 +50,10 @@ public class Monsters {
             name = "Goblin";
             maxHealth = 20;
             dmg = 5;
-            psychicalDamage = 8;
+            psychicalDamage = 10;
             magicalDamage = 0;
-            psychicalDefense = 3;
-            magicalDefense = 0;
+            psychicalDefense = 5;
+            magicalDefense = 2;
             exp = 20;
             initiative = 2;
             transformCode = 2;
@@ -61,9 +63,9 @@ public class Monsters {
             maxHealth = 20;
             dmg = 5;
             psychicalDamage = 0;
-            magicalDamage = 8;
-            psychicalDefense = 0;
-            magicalDefense = 3;
+            magicalDamage = 10;
+            psychicalDefense = 2;
+            magicalDefense = 5;
             exp = 20;
             initiative = 2;
             transformCode = 3;
@@ -72,10 +74,10 @@ public class Monsters {
             name = "Skeleton";
             maxHealth = 25;
             dmg = 5;
-            psychicalDamage = 10;
+            psychicalDamage = 12;
             magicalDamage = 0;
-            psychicalDefense = 5;
-            magicalDefense = 2;
+            psychicalDefense = 7;
+            magicalDefense = 4;
             exp = 30;
             initiative = 4;
             transformCode = 4;
@@ -85,9 +87,9 @@ public class Monsters {
             maxHealth = 25;
             dmg = 5;
             psychicalDamage = 0;
-            magicalDamage = 10;
-            psychicalDefense = 2;
-            magicalDefense = 5;
+            magicalDamage = 12;
+            psychicalDefense = 4;
+            magicalDefense = 7;
             exp = 30;
             initiative = 4;
             transformCode = 5;
@@ -96,10 +98,10 @@ public class Monsters {
             name = "Ogre";
             maxHealth = 30;
             dmg = 5;
-            psychicalDamage = 12;
+            psychicalDamage = 15;
             magicalDamage = 0;
-            psychicalDefense = 7;
-            magicalDefense = 4;
+            psychicalDefense = 10;
+            magicalDefense = 7;
             exp = 40;
             initiative = 6;
             transformCode = 6;
@@ -109,9 +111,9 @@ public class Monsters {
             maxHealth = 30;
             dmg = 5;
             psychicalDamage = 0;
-            magicalDamage = 12;
-            psychicalDefense = 4;
-            magicalDefense = 7;
+            magicalDamage = 15;
+            psychicalDefense = 7;
+            magicalDefense = 10;
             exp = 40;
             initiative = 6;
             transformCode = 7;
@@ -122,8 +124,9 @@ public class Monsters {
             dmg = 5;
             psychicalDamage = 14;
             magicalDamage = 14;
-            psychicalDefense = 8;
-            magicalDefense = 10;
+            psychicalDefense = 14;
+            magicalDefense = 14;
+            exp = 0;
             initiative = 8;
             setMaxHealth(maxHealth);
         }
@@ -173,5 +176,22 @@ public class Monsters {
 
     public int getTransformCode() {
         return transformCode;
+    }
+
+    public void setNewGamePlus(int newGamePlus) {
+        this.newGamePlus = newGamePlus;
+    }
+    public int getNewGamePlus() {
+        return newGamePlus;
+    }
+
+    public void increaseStats() {
+            maxHealth = maxHealth * getNewGamePlus();
+            dmg = dmg * getNewGamePlus();
+            psychicalDamage = psychicalDamage * getNewGamePlus();
+            magicalDamage = magicalDamage * getNewGamePlus();
+            psychicalDefense = psychicalDefense * getNewGamePlus();
+            magicalDefense = magicalDefense * getNewGamePlus();
+            initiative = initiative * getNewGamePlus();
     }
 }

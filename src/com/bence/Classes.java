@@ -5,6 +5,8 @@ import java.util.Scanner;
 
 public class Classes {
     Role role;
+    Random rand = new Random();
+
     private int STR = 1;
     private int INT = 1;
     private int CON = 1;
@@ -13,11 +15,15 @@ public class Classes {
     private int CHA = 1;
     private int EXP = 0;
     private int maxExp = 20;
-    private int skillPoint = 0;
-    private boolean instant = false;
     private int health = health();
     private int mana = mana();
+    private int roll;
+    private int damage;
     private int levelUpScore = 1;
+    private int newGameScore = 1;
+
+    private boolean chosen = false;
+
     Scanner scanner = new Scanner(System.in);
 
     public Classes() {
@@ -33,8 +39,7 @@ public class Classes {
             setDEX(12);
             setWIS(10);
             setCHA(10);
-            health = maxHealth();
-            mana = maxMana();
+            setChosen(true);
         }
         if (name.equalsIgnoreCase("mage")) {
             role = Role.MAGE;
@@ -44,8 +49,7 @@ public class Classes {
             setDEX(10);
             setWIS(14);
             setCHA(14);
-            health = maxHealth();
-            mana = maxMana();
+            setChosen(true);
         }
         if (name.equalsIgnoreCase("priest")) {
             role = Role.PRIEST;
@@ -55,8 +59,7 @@ public class Classes {
             setDEX(12);
             setWIS(14);
             setCHA(12);
-            health = maxHealth();
-            mana = maxMana();
+            setChosen(true);
         }
         if (name.equalsIgnoreCase("rogue")) {
             role = Role.ROGUE;
@@ -66,8 +69,7 @@ public class Classes {
             setDEX(16);
             setWIS(10);
             setCHA(16);
-            health = maxHealth();
-            mana = maxMana();
+            setChosen(true);
         }
         if (name.equalsIgnoreCase("samurai")) {
             role = Role.SAMURAI;
@@ -77,8 +79,7 @@ public class Classes {
             setDEX(14);
             setWIS(10);
             setCHA(16);
-            health = maxHealth();
-            mana = maxMana();
+            setChosen(true);
         }
         if (name.equalsIgnoreCase("berserker")) {
             role = Role.BERSERKER;
@@ -88,8 +89,7 @@ public class Classes {
             setDEX(14);
             setWIS(10);
             setCHA(10);
-            health = maxHealth();
-            mana = maxMana();
+            setChosen(true);
         }
         if (name.equalsIgnoreCase("warlock")) {
             role = Role.WARLOCK;
@@ -99,8 +99,7 @@ public class Classes {
             setDEX(10);
             setWIS(14);
             setCHA(10);
-            health = maxHealth();
-            mana = maxMana();
+            setChosen(true);
         }
         if (name.equalsIgnoreCase("paladin")) {
             role = Role.PALADIN;
@@ -110,8 +109,7 @@ public class Classes {
             setDEX(10);
             setWIS(12);
             setCHA(14);
-            health = maxHealth();
-            mana = maxMana();
+            setChosen(true);
         }
         if (name.equalsIgnoreCase("gunslinger")) {
             role = Role.GUNSLINGER;
@@ -121,8 +119,7 @@ public class Classes {
             setDEX(14);
             setWIS(10);
             setCHA(14);
-            health = maxHealth();
-            mana = maxMana();
+            setChosen(true);
         }
         if (name.equalsIgnoreCase("gambler")) {
             role = Role.GAMBLER;
@@ -132,8 +129,7 @@ public class Classes {
             setDEX(14);
             setWIS(10);
             setCHA(14);
-            health = maxHealth();
-            mana = maxMana();
+            setChosen(true);
         }
         if (name.equalsIgnoreCase("Necromancer")) {
             role = Role.NECROMANCER;
@@ -143,8 +139,7 @@ public class Classes {
             setDEX(10);
             setWIS(14);
             setCHA(14);
-            health = maxHealth();
-            mana = maxMana();
+            setChosen(true);
         }
         if (name.equalsIgnoreCase("Shapeshifter")) {
             role = Role.SHAPESHIFTER;
@@ -154,15 +149,13 @@ public class Classes {
             setDEX(12);
             setWIS(10);
             setCHA(12);
-            health = maxHealth();
-            mana = maxMana();
+            setChosen(true);
         }
+        health = maxHealth();
+        mana = maxMana();
     }
 
     public int psychicalDamage() {
-        int roll = 0;
-        int damage = 0;
-        Random rand = new Random();
         if (role.equals(Role.WARRIOR) || role.equals(Role.PALADIN)) {
             roll = rand.nextInt(10);
             damage = roll + attackPower();
@@ -179,9 +172,6 @@ public class Classes {
     }
 
     public int magicalDamage() {
-        int roll = 0;
-        int damage = 0;
-        Random rand = new Random();
         if (role.equals(Role.MAGE)) {
             roll = rand.nextInt(8);
             damage = roll + magicPower();
@@ -211,11 +201,7 @@ public class Classes {
     }
 
     public void setHealth(int num) {
-        if (num <= maxHealth()) {
-            health = num;
-        } else {
-            health = maxHealth();
-        }
+        health = num;
     }
 
     public int getHealth() {
@@ -231,11 +217,7 @@ public class Classes {
     }
 
     public void setMana(int num) {
-        if (num <= maxMana()) {
-            mana = num;
-        } else {
-            mana = maxMana();
-        }
+        mana = num;
     }
 
     public int getMana() {
@@ -251,8 +233,7 @@ public class Classes {
     }
 
     public int initiative() {
-        Random iniRand = new Random();
-        int ini = iniRand.nextInt(20) + 1;
+        int ini = rand.nextInt(20) + 1;
         return ini + ((CHA - 10) * 2);
     }
 
@@ -261,6 +242,10 @@ public class Classes {
     }
 
     public int critChance() {
+        return (DEX - 10);
+    }
+
+    public int critDMG() {
         return (DEX - 10);
     }
 
@@ -325,144 +310,117 @@ public class Classes {
         return (CHA - 10) * 2;
     }
 
-    public String classAbiliti() {
-        String abiliti = "";
+    public String classAbility() {
+        String ability = "";
         if (role.equals(Role.WARRIOR)) {
-            abiliti = "Bloodbath";
+            ability = "Bloodbath";
         } else if (role.equals(Role.MAGE)) {
-            abiliti = "Fireball";
+            ability = "Fireball";
         } else if (role.equals(Role.PRIEST)) {
-            abiliti = "Heal";
+            ability = "Heal";
         } else if (role.equals(Role.ROGUE)) {
-            abiliti = "Stealth";
+            ability = "Stealth";
         } else if (role.equals(Role.SAMURAI)) {
-            abiliti = "Iaido";
+            ability = "Iaido";
         } else if (role.equals(Role.BERSERKER)) {
-            abiliti = "Rampage";
+            ability = "Rampage";
         } else if (role.equals(Role.WARLOCK)) {
-            abiliti = "Shadowbolt";
+            ability = "Shadowbolt";
         } else if (role.equals(Role.PALADIN)) {
-            abiliti = "Reflect";
+            ability = "Reflect";
         } else if (role.equals(Role.GUNSLINGER)) {
-            abiliti = "Barrage";
+            ability = "Barrage";
         } else if (role.equals(Role.GAMBLER)) {
-            abiliti = "Roll";
+            ability = "Roll";
         } else if (role.equals(Role.NECROMANCER)) {
-            abiliti = "Claws";
+            ability = "Claws";
         } else if (role.equals(Role.SHAPESHIFTER)) {
-            abiliti = "Transform";
+            ability = "Transform";
         }
-        return abiliti;
+        return ability;
     }
 
     public void levelUP() throws InterruptedException {
         levelUpScore++;
+        newGameScore++;
+        int skillPoint = 2;
         Thread.sleep(1000);
         System.out.println("LEVEL UP!");
-        System.out.println("Choose a stat to improve:");
+        maxExp = maxExp + 20;
+        while (skillPoint > 0) {
+        if (skillPoint == 2) {
+            System.out.println("Choose a stat to improve:");
+        } else {
+            System.out.println("Choose another stat to improve:");
+        }
         System.out.println("Strength(STR): + psychical damage");
         System.out.println("Intelligence(INT): + magical damage + magical defense");
         System.out.println("Constitution(CON): + health and psychical defense");
-        System.out.println("Dexterity(DEX): + critical chance");
+        System.out.println("Dexterity(DEX): + critical chance + critical damage");
         System.out.println("Wisdom(WIS): + mana and heal");
         System.out.println("Charisma(CHA): + initiative");
-        skillPoint = 2;
-        maxExp = maxExp + 20;
-        if (levelUpScore == 6) {
-            instant = true;
-        }
-        while (skillPoint == 2) {
+
             String lup = scanner.next();
             switch (lup) {
-                case "STR":
+                case "STR" -> {
                     setSTR(getSTR() + 1);
                     System.out.println("Your STR is " + getSTR());
-                    skillPoint = skillPoint - 1;
-                    break;
-                case "INT":
+                    skillPoint--;
+                }
+                case "INT" -> {
                     setINT(getINT() + 1);
                     System.out.println("Your INT is " + getINT());
-                    skillPoint = skillPoint - 1;
-                    break;
-                case "CON":
+                    skillPoint--;
+                }
+                case "CON" -> {
                     setCON(getCON() + 1);
                     System.out.println("Your CON is " + getCON());
-                    skillPoint = skillPoint - 1;
-                    break;
-                case "DEX":
+                    skillPoint--;
+                }
+                case "DEX" -> {
                     setDEX(getDEX() + 1);
                     System.out.println("Your DEX is " + getDEX());
-                    skillPoint = skillPoint - 1;
-                    break;
-                case "WIS":
+                    skillPoint--;
+                }
+                case "WIS" -> {
                     setWIS(getWIS() + 1);
                     System.out.println("Your WIS is " + getWIS());
-                    skillPoint = skillPoint - 1;
-                    break;
-                case "CHA":
+                    skillPoint--;
+                }
+                case "CHA" -> {
                     setCHA(getCHA() + 1);
                     System.out.println("Your CHA is " + getCHA());
-                    skillPoint = skillPoint - 1;
-                    break;
-                default:
-                    System.out.println("Wrong command!");
-            }
-            System.out.println("Choose another stat to improve:");
-            System.out.println("Strength(STR): + psychical damage");
-            System.out.println("Intelligence(INT): + magical damage + magical defense");
-            System.out.println("Constitution(CON): + health and psychical defense");
-            System.out.println("Dexterity(DEX): + critical chance");
-            System.out.println("Wisdom(WIS): + mana and heal");
-            System.out.println("Charisma(CHA): + initiative");
-        }
-        while (skillPoint == 1) {
-            String lup = scanner.next();
-            switch (lup) {
-                case "STR":
-                    setSTR(getSTR() + 1);
-                    System.out.println("Your STR is " + getSTR());
-                    skillPoint = skillPoint - 1;
-                    break;
-                case "INT":
-                    setINT(getINT() + 1);
-                    System.out.println("Your INT is " + getINT());
-                    skillPoint = skillPoint - 1;
-                    break;
-                case "CON":
-                    setCON(getCON() + 1);
-                    System.out.println("Your CON is " + getCON());
-                    skillPoint = skillPoint - 1;
-                    break;
-                case "DEX":
-                    setDEX(getDEX() + 1);
-                    System.out.println("Your DEX is " + getDEX());
-                    skillPoint = skillPoint - 1;
-                    break;
-                case "WIS":
-                    setWIS(getWIS() + 1);
-                    System.out.println("Your WIS is " + getWIS());
-                    skillPoint = skillPoint - 1;
-                    break;
-                case "CHA":
-                    setCHA(getCHA() + 1);
-                    System.out.println("Your CHA is " + getCHA());
-                    skillPoint = skillPoint - 1;
-                    break;
-                default:
-                    System.out.println("Wrong command!");
+                    skillPoint--;
+                }
+                default -> System.out.println("Wrong command!");
             }
         }
+
         System.out.println("Your level is " + levelUpScore);
-        System.out.println("You have " + getEXP() + "/" + getMaxExp() + " experience points.");
     }
 
 
 
-    public int dragonTrue() {
+    public int getLevelUpScore() {
         return levelUpScore;
     }
+    public int getNewGameScore() {
+        return newGameScore;
+    }
 
+    public void setLevelUpScore(int num) {
+        levelUpScore = num;
+    }
     public int getMaxExp() {
         return maxExp;
+    }
+    public void setMaxExp(int num) {
+        maxExp = num;
+    }
+    public void setChosen(boolean chosen) {
+        this.chosen = chosen;
+    }
+    public boolean isChosen() {
+        return chosen;
     }
 }

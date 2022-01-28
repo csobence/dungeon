@@ -4,9 +4,10 @@ import java.util.Random;
 
 public class Game {
 
-    private boolean gameOver = false;
     Arts arts;
     Classes classes;
+    Random rand = new Random();
+    private int roll;
 
     public Game(Classes classes, Arts arts) {
         this.classes = classes;
@@ -14,9 +15,12 @@ public class Game {
     }
 
     public int roomChance() {
-        Random rand = new Random();
-        int roll = rand.nextInt(5);
+        roll = rand.nextInt(5);
+        return roll;
+    }
 
+    public int trapChance() {
+        roll = rand.nextInt(2);
         return roll;
     }
 
@@ -36,20 +40,6 @@ public class Game {
         return word;
     }
 
-    public int trapChance() {
-        Random rand = new Random();
-        int roll = rand.nextInt(2);
-        return roll;
-    }
-
-    public boolean gameOver() {
-        if (gameOver == true) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public void classList() {
         System.out.println("Warrior: the strong guy with the sword");
         System.out.println("Mage: your typical magic dude");
@@ -65,7 +55,7 @@ public class Game {
         System.out.println("Shapeshifter: the copycat");
     }
 
-    public void abilitiList() {
+    public void abilityList() {
         System.out.println("Strike: deals psychical damage to the enemy");
         System.out.println("Magic: deals magical damage to the enemy and costs 4 mana");
         if (classes.role.equals(Role.WARRIOR)) {
@@ -117,6 +107,19 @@ public class Game {
         System.out.println("Dexterity(DEX): " + classes.getDEX());
         System.out.println("Wisdom(WIS): " + classes.getWIS());
         System.out.println("Charisma(CHA): " + classes.getCHA());
+    }
+
+    public void commandList() {
+        System.out.println("Right: go right");
+        System.out.println("Left: go left");
+        System.out.println("Forward: go forward");
+        System.out.println("Look: you can look inside one of the rooms, once per turn");
+        System.out.println("Items: you can look at your items and you can use them");
+        System.out.println("Equipment: you can look at your equipments");
+        System.out.println("Stats: the list of your stats");
+        System.out.println("Attributes: the list of your attributes");
+        System.out.println("Abilities: the list of your abilities");
+        System.out.println("Quit: quit the game");
     }
 
     public void monsterArt(int num) {
